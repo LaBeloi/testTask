@@ -3,6 +3,6 @@ import UserController from './user.controller.js';
 
 const router = Router();
 
-router.post('/', (req, res) => UserController.createUser(req, res))
+router.post('/', (req, res, next) => UserController.createUser(req, res, next))
 
 export default router

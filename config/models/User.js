@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database.js";
+import { priceVars, accessibilityVars } from '../variables.js';
 
 export const User = sequelize.define(
   'users',
@@ -17,14 +18,14 @@ export const User = sequelize.define(
       allowNull: false,
       type: DataTypes.STRING,
       validate: {
-        isIn: [['High', 'Medium', 'Low']]
+        isIn: [Object.values(accessibilityVars)]
       }
     },
     price: {
       allowNull: false,
       type: DataTypes.STRING,
       validate: {
-        isIn: [['Free', 'Low', 'High']]
+        isIn: [Object.values(priceVars)]
       }
     }
   }

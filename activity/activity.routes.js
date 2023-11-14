@@ -3,6 +3,6 @@ import ActivityController from './activity.controller.js';
 
 const router = Router();
 
-router.get('/', (req, res) => ActivityController.getActivities(req, res))
+router.get('/', (req, res, next) => ActivityController.getActivities(req, res, next))
 
 export default router;

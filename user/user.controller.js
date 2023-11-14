@@ -1,12 +1,13 @@
 import UserService from './user.service.js';
 
-const createUser = (req, res) => {
-  UserService.createUser(req.body)
-    .then(data => {
-      req.session.user = data
-      res.send(data)
-    })
-    .catch(error => res.status(400).send(error.message))
+const createUser = async (req, res, next) => {
+  try {
+    const data = await UserService.createUser(req.body)
+    req.session.user = data;
+    res.send(data)
+  } catch (error) {
+    next(error)
+  }
 }
 
 export default {

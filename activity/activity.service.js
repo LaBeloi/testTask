@@ -1,33 +1,32 @@
 import axios from "axios";
+import { boredApi } from "../config/variables.js";
 import { priceQueries, accessibilityQueries, setPriceStatus, setAccessibilityStatus } from './helpers/statusDefiners.js';
 
 const getActivities = async (user) => {
-  try {
-    let searchQuery = '';
+  let params = {};
 
-    if (user) {
-      const priceSearchQuery = priceQueries[user.price.toLowerCase()];
-      const accessibilitySearchQuery = accessibilityQueries[user.accessibility.toLowerCase()];
-      searchQuery = `?${priceSearchQuery}&${accessibilitySearchQuery}`
+  if (user) {
+    params = {
+      ...priceQueries[user.price.toLowerCase()],
+      ...accessibilityQueries[user.accessibility.toLowerCase()]
     }
-
-    const { data } = await axios.get(`http://www.boredapi.com/api/activity${searchQuery}`);
-    
-    const response = {
-      ...data,
-    };
-
-    if ("accessibility" in data) {
-      response.accessibility = setAccessibilityStatus(data.accessibility)
-    }
-    if ("price" in data) {
-      response.price = setPriceStatus(data.price)
-    }
-
-    return response
-  } catch (error) {
-    throw new Error(error)
   }
+
+  const { data } = await axios.get(boredApi, {
+    params
+  });
+  
+  if ("error" in data) {
+    throw new Error(data.error)
+  }
+
+  const response = {
+    ...data,
+    accessibility: setAccessibilityStatus(data.accessibility),
+    price: setPriceStatus(data.price)
+  };
+
+  return response
 };
 
 export default {
