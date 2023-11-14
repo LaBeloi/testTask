@@ -5,7 +5,7 @@ export const priceQueries = {
     price: 0
   },
   high: {
-    minprice: 0.52
+    minprice: 0.501
   },
   low: {
     minprice: 0.1,
